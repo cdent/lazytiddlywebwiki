@@ -83,6 +83,8 @@ class Serialization(WikiSerialization):
     def _lazy_eligible(self, tiddler):
         if 'systemConfig' in tiddler.tags:
             return False
+        if 'systemTheme' in tiddler.tags:
+            return False
         if 'StyleSheet' in tiddler.title:
             return False
         if tiddler.title in ACTIVE_TITLES + MARKUPS.keys():
