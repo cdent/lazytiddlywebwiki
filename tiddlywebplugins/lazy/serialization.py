@@ -20,6 +20,22 @@ ACTIVE_TITLES = [
         'SiteSubtitle',
         ]
 
+FRAGMENTS = [
+        'Commands',
+        'Template',
+        'StyleSheet',
+        ]
+
+TAGS = [
+        'systemConfig',
+        'excludeLists',
+        'systemTheme',
+        ]
+
+BAGS = [
+        'system',
+        ]
+
 class Serialization(WikiSerialization):
 
     def _create_tiddlers(self, title, tiddlers):
@@ -81,12 +97,16 @@ class Serialization(WikiSerialization):
         return browsable_url, lines, title, found_markup_tiddlers
 
     def _lazy_eligible(self, tiddler):
-        if 'systemConfig' in tiddler.tags:
-            return False
-        if 'systemTheme' in tiddler.tags:
-            return False
-        if 'StyleSheet' in tiddler.title:
-            return False
-        if tiddler.title in ACTIVE_TITLES + MARKUPS.keys():
+        for bag in BAGS:
+            if bag == tiddler.bag:
+                return False
+        for tag in TAGS:
+            if tag in tiddler.tags:
+                return False
+        for fragment in FRAGMENTS:
+            if fragment in tiddler.title:
+                return False
+        special_titles = self.environ['tiddlyweb.config'].get('lazy.titles', [])
+        if tiddler.title in special_titles + ACTIVE_TITLES + MARKUPS.keys():
             return False
         return True

@@ -1,3 +1,2 @@
-include Makefile README CHANGES
-recursive-include tiddlywebplugins/lazy/resources *
+include Makefile README
 recursive-include test *
