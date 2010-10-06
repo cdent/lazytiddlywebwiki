@@ -1,0 +1,9 @@
+This is an experimental plugin to do loading of tiddlers after
+the tiddlywiki has initially booted.
+
+It's goal is to lower the amount of data transferred in the first
+request.
+
+It needs http://github.com/cdent/lazytiddlers/blob/master/LazyTiddlersPlugin.js
+
+(more better instructions to come)
