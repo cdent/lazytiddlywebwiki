@@ -68,13 +68,13 @@ class Serialization(WikiSerialization):
             tiddler_count += 1
 
         if tiddler_count == 1:
-            default_tiddler = Tiddler('DefaultTiddlers')
+            default_tiddler = Tiddler('DefaultTiddlers', '')
             default_tiddler.tags = ['excludeLists']
             default_tiddler.text = '[[' + tiddler.title + ']]'
             lines.append(self._tiddler_as_div(default_tiddler))
 
         if saves:
-            save_tiddler = Tiddler('LazyTiddlers')
+            save_tiddler = Tiddler('LazyTiddlers', '')
             save_tiddler.tags = ['excludeLists']
             save_tiddler.fields['doNotSave'] = 'true'
             save_tiddler.text = '\n'.join(['%s:%s' %
