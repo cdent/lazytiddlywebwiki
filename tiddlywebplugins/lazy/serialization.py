@@ -43,7 +43,6 @@ class Serialization(WikiSerialization):
         Figure out the content to be pushed into the
         wiki and calculate the title.
         """
-        saves = []
         lines = []
         window_title = None
         candidate_title = None
@@ -52,9 +51,7 @@ class Serialization(WikiSerialization):
         found_markup_tiddlers = {}
         tiddler_count = 0
         for tiddler in tiddlers:
-            if self._lazy_eligible(tiddler):
-                saves.append(tiddler)
-            else:
+            if not self._lazy_eligible(tiddler):
                 lines.append(self._tiddler_as_div(tiddler))
             tiddler_title = tiddler.title
             if tiddler_title == 'WindowTitle':
@@ -72,14 +69,6 @@ class Serialization(WikiSerialization):
             default_tiddler.tags = ['excludeLists']
             default_tiddler.text = '[[' + tiddler.title + ']]'
             lines.append(self._tiddler_as_div(default_tiddler))
-
-        if saves:
-            save_tiddler = Tiddler('LazyTiddlers', '')
-            save_tiddler.tags = ['excludeLists']
-            save_tiddler.fields['doNotSave'] = 'true'
-            save_tiddler.text = '\n'.join(['%s:%s' %
-                (tiddler.bag, tiddler.title) for tiddler in saves])
-            lines.append(self._tiddler_as_div(save_tiddler))
 
         browsable_url = None
         try:
