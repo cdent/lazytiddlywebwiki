@@ -11,6 +11,7 @@ from tiddlywebwiki.serialization import (
 
 from tiddlyweb.model.tiddler import Tiddler
 from tiddlyweb.web.util import server_base_url, encode_name
+from tiddlyweb.util import binary_tiddler
 
 ACTIVE_TITLES = [
         'DefaultTiddlers',
@@ -43,7 +44,7 @@ class Serialization(WikiSerialization):
         Figure out the content to be pushed into the
         wiki and calculate the title.
         """
-        lines = []
+        kept_tiddlers = []
         window_title = None
         candidate_title = None
         candidate_subtitle = None
@@ -52,7 +53,7 @@ class Serialization(WikiSerialization):
         tiddler_count = 0
         for tiddler in tiddlers:
             if not self._lazy_eligible(tiddler):
-                lines.append(self._tiddler_as_div(tiddler))
+                kept_tiddlers.append(tiddler)
             tiddler_title = tiddler.title
             if tiddler_title == 'WindowTitle':
                 window_title = tiddler.text
@@ -68,7 +69,7 @@ class Serialization(WikiSerialization):
             default_tiddler = Tiddler('DefaultTiddlers', '')
             default_tiddler.tags = ['excludeLists']
             default_tiddler.text = '[[' + tiddler.title + ']]'
-            lines.append(self._tiddler_as_div(default_tiddler))
+            kept_tiddlers.append(default_tiddler)
 
         browsable_url = None
         try:
@@ -86,9 +87,11 @@ class Serialization(WikiSerialization):
                 candidate_subtitle)
         title = self._plain_textify_string(title)
 
-        return browsable_url, lines, title, found_markup_tiddlers
+        return browsable_url, kept_tiddlers, title, found_markup_tiddlers
 
     def _lazy_eligible(self, tiddler):
+        if binary_tiddler(tiddler):
+            return True
         for bag in BAGS:
             if bag == tiddler.bag:
                 return False
