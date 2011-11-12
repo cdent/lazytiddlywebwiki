@@ -35,7 +35,13 @@ BAGS = [
         'system',
         ]
 
+
 class Serialization(WikiSerialization):
+    """
+    Override the tiddlywebwiki serialization to make the delivered
+    wiki be missing many expected tiddlers so they can be loaded 
+    lazily later.
+    """
 
     def _create_tiddlers(self, title, tiddlers):
         """
@@ -72,12 +78,13 @@ class Serialization(WikiSerialization):
         browsable_url = None
         try:
             if tiddler.recipe:
-                workspace = '/recipes/%s/tiddlers' % encode_name(tiddler.recipe)
+                workspace = ('/recipes/%s/tiddlers'
+                        % encode_name(tiddler.recipe))
             else:
                 workspace = '/bags/%s/tiddlers' % encode_name(tiddler.bag)
             browsable_url = server_base_url(self.environ) + workspace
         except UnboundLocalError:
-            pass # tiddler is not set because tiddlers was empty
+            pass  # tiddler is not set because tiddlers was empty
 
         # Turn the title into HTML and then turn it into
         # plain text so it is of a form satisfactory to <title>
@@ -99,7 +106,8 @@ class Serialization(WikiSerialization):
         for fragment in FRAGMENTS:
             if fragment in tiddler.title:
                 return False
-        special_titles = self.environ['tiddlyweb.config'].get('lazy.titles', [])
+        special_titles = self.environ['tiddlyweb.config'].get(
+                'lazy.titles', [])
         if tiddler.title in special_titles + ACTIVE_TITLES + MARKUPS.keys():
             return False
         return True

@@ -1,3 +1,8 @@
+"""
+The default configuration information for tiddlywebplugins.lazy.
+
+This gets merged when the plugin is initialized.
+"""
 
 config = {
         #instance_tiddlers':
