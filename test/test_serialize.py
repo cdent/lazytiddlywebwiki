@@ -22,22 +22,17 @@ def setup_module(module):
 
     module.store = store
 
-    module.serializer = Serializer('tiddlywebplugins.lazy.serialization',
+    module.lserializer = Serializer('tiddlywebplugins.lazy.serialization',
+            environ)
+    module.fserializer = Serializer('tiddlywebwiki.serialization',
             environ)
 
 
 def test_lazy():
-    tiddlers = store.list_bag_tiddlers(store.get(Bag('test')))
-
-    output = ''.join(serializer.list_tiddlers(tiddlers))
-
+    tiddlers = (store.get(tiddler) for tiddler in store.list_bag_tiddlers(store.get(Bag('test'))))
+    output = ''.join(lserializer.list_tiddlers(tiddlers))
     assert 'I am uniquely999' not in output
-    assert 'title="LazyTiddlers"' in output
-    assert 'test:monkey' in output
 
-
-
-
-
-
-
+    tiddlers = (store.get(tiddler) for tiddler in store.list_bag_tiddlers(store.get(Bag('test'))))
+    output = ''.join(fserializer.list_tiddlers(tiddlers))
+    assert 'I am uniquely999' in output, output

@@ -1,10 +1,8 @@
-This is an experimental TiddlyWeb plugin to do loading of tiddlers after
-the tiddlywiki has initially booted.
+This is an experimental TiddlyWeb plugin to enforce loading of tiddlers after
+the tiddlywiki has initially started.
 
 It's goal is to lower the amount of data transferred in the first
 request.
 
-It needs http://github.com/cdent/lazytiddlers/blob/master/LazyTiddlersPlugin.js
-to operate. It is not currently packaged with the plugin because of 
-difficulties with tiddlywebplugins.instancer.
-
+It needs a plugin like http://lazy.tiddlyspace.com/LoadMissingTiddlersPlugin
+to be present in the wiki to be useful.
