@@ -1,8 +1,6 @@
 """
 Serialize into a tiddlywiki wiki, leaving out most of the tiddlers
 so they can be loaded later by something else.
-
-The missing tiddlers are placed in a tiddler called LazyTiddlers.
 """
 
 from tiddlywebwiki.serialization import (
