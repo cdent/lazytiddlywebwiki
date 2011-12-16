@@ -90,7 +90,6 @@ class Serialization(WikiSerialization):
         # plain text so it is of a form satisfactory to <title>
         title = self._determine_title(title, window_title, candidate_title,
                 candidate_subtitle)
-        title = self._plain_textify_string(title)
 
         return browsable_url, kept_tiddlers, title, found_markup_tiddlers
 
