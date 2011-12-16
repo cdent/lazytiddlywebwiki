@@ -1,4 +1,4 @@
-VERSION = '0.5'
+VERSION = '0.6'
 
 import os
 from setuptools import setup, find_packages
@@ -15,7 +15,7 @@ setup(
     platforms = 'Posix; MacOS X; Windows',
     packages = find_packages(exclude=['test']),
     install_requires = [
-        'tiddlywebwiki>=0.57.0',
+        'tiddlywebwiki>=0.58.0',
         'tiddlyweb',
         ],
     include_package_data = True,
